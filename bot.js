@@ -2,7 +2,7 @@ const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
 
 // === Configuration ===
-const BOT_TOKEN = "7536099881:AAEy7vuba93VnAFmxbBIUrS2oJVx8ueNR9c";
+const BOT_TOKEN = "8044425978:AAFuuQPVxH2Q8GEzhUM46d80Cv9DZJYZDgg";
 const YOUR_NAME = "Kaustav Ray";
 
 // === Initialize bot ===
