@@ -1,7 +1,7 @@
 {
-  "name": "post-forwarder-bot",
+  "name": "telegram-post-forwarder-bot",
   "version": "1.0.0",
-  "description": "Telegram bot to forward posts to admin channels",
+  "description": "Telegram bot that forwards posts to channels where it's admin",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
