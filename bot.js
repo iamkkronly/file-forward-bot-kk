@@ -1,54 +1,53 @@
 const TelegramBot = require("node-telegram-bot-api");
 const express = require("express");
 
-// === Configuration ===
-const BOT_TOKEN = "8044425978:AAFuuQPVxH2Q8GEzhUM46d80Cv9DZJYZDgg";
+// === CONFIGURATION ===
+const BOT_TOKEN = "7536099881:AAEy7vuba93VnAFmxbBIUrS2oJVx8ueNR9c";
 const YOUR_NAME = "Kaustav Ray";
 
-// === Initialize bot ===
+// === SETUP BOT ===
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 const app = express();
 
-// Express server (for Render to keep alive)
-app.get("/", (req, res) => res.send("🤖 Bot is alive!"));
+// === SERVER TO KEEP RENDER ALIVE ===
+app.get("/", (req, res) => res.send("🤖 Bot is alive and running!"));
 app.listen(process.env.PORT || 3000, () => {
-  console.log("✅ Web server running...");
+  console.log("✅ Express web server started.");
 });
 
-// === Keep track of all admin channels ===
+// === TRACK CHANNELS WHERE BOT IS ADMIN ===
 let adminChannels = new Set();
 
-// === Helper to format caption ===
-function formatCaption(original) {
-  return (original || "") + "\n\n" + YOUR_NAME;
+// === FORMAT CAPTION ===
+function formatCaption(text) {
+  return (text || "") + "\n\n" + YOUR_NAME;
 }
 
-// === Watch for channel admin changes ===
+// === DETECT WHEN BOT IS MADE ADMIN ===
 bot.on("my_chat_member", (msg) => {
   const chat = msg.chat;
-  const newStatus = msg.new_chat_member.status;
+  const status = msg.new_chat_member.status;
 
   if (chat.type === "channel") {
-    if (["administrator", "creator"].includes(newStatus)) {
+    if (status === "administrator" || status === "creator") {
       adminChannels.add(chat.id);
-      console.log(`✅ Bot added as admin in channel: ${chat.title} (${chat.id})`);
-    } else if (["left", "kicked", "member"].includes(newStatus)) {
+      console.log(`✅ Added admin channel: ${chat.title || chat.id}`);
+    } else {
       adminChannels.delete(chat.id);
-      console.log(`❌ Bot removed from channel: ${chat.title} (${chat.id})`);
+      console.log(`❌ Removed channel: ${chat.title || chat.id}`);
     }
   }
 });
 
-// === Handle private user messages ===
+// === HANDLE INCOMING USER MESSAGES ===
 bot.on("message", async (msg) => {
   if (!msg || msg.chat.type !== "private") return;
 
   const caption = formatCaption(msg.caption || msg.text || "");
-
-  console.log(`📩 New message from ${msg.from.username || msg.from.id}`);
+  console.log(`📩 Message received from ${msg.from.username || msg.from.id}`);
 
   if (adminChannels.size === 0) {
-    bot.sendMessage(msg.chat.id, "⚠️ I’m not an admin in any channel yet.");
+    bot.sendMessage(msg.chat.id, "⚠️ I'm not admin in any channel yet.");
     return;
   }
 
@@ -67,14 +66,23 @@ bot.on("message", async (msg) => {
       } else if (msg.text) {
         await bot.sendMessage(channelId, caption);
       } else {
-        await bot.sendMessage(channelId, `⚠️ Unsupported message type.\n\n${caption}`);
+        await bot.sendMessage(channelId, `⚠️ Unsupported content.\n\n${caption}`);
       }
 
-      console.log(`📤 Forwarded message to channel ID: ${channelId}`);
+      console.log(`📤 Forwarded to ${channelId}`);
     } catch (err) {
       console.error(`❌ Failed to send to ${channelId}:`, err.message);
     }
   }
 
-  bot.sendMessage(msg.chat.id, "✅ Sent to channels successfully!");
+  await bot.sendMessage(msg.chat.id, "✅ Message forwarded successfully.");
 });
+
+// === AUTO-RESTART EVERY 1 HOUR ===
+setTimeout(() => {
+  console.log("♻️ Auto restarting bot after 1 hour...");
+  process.exit(0); // Render will restart the service
+}, 3600000); // 1 hour in milliseconds
+
+// Log bot startup time
+console.log("🚀 Bot started at", new Date().toLocaleString());
