@@ -1,14 +1,17 @@
 {
   "name": "telegram-forwarder-bot",
   "version": "1.0.0",
-  "description": "Telegram bot forwarding user posts to admin channels, MongoDB stored",
+  "description": "Telegram bot forwarding messages to admin channels, MongoDB stored",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "express": "^4.18.2",
-    "mongodb": "^5.10.0",
+    "mongodb": "^5.8.0",
     "node-telegram-bot-api": "^0.61.0"
   }
 }
