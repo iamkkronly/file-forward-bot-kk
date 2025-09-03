@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 
 // === CONFIGURATION ===
 const BOT_TOKEN = "8044425978:AAEPXnokl80QPt_9dojzdv1ImTWmSvofHiE";
-const YOUR_NAME = "Kaustav Ray";
+const YOUR_NAME = "Kaustav Ray          Join here: @filestore4u";
 
 const MONGODB_URI = "mongodb+srv://refay35820:fNS6JM3DC2PmsbgV@cluster0.n6j6fas.mongodb.net/telegramBot?retryWrites=true&w=majority&appName=Cluster0";
 const DB_NAME = "telegramBot";
