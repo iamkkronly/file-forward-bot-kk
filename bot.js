@@ -3,7 +3,7 @@ const express = require("express");
 const { MongoClient } = require("mongodb");
 
 // === CONFIGURATION ===
-const BOT_TOKEN = "8044425978:AAEPXnokl80QPt_9dojzdv1ImTWmSvofHiE";
+const BOT_TOKEN = "8044425978:AAHHpywDXehP9qN-UDe6Pur_zCDbfIfyHiw";
 const YOUR_NAME = "Kaustav Ray                                                      Join here: @filestore4u     @freemovie5u ";
 
 const MONGODB_URI = "mongodb+srv://refay35820:fNS6JM3DC2PmsbgV@cluster0.n6j6fas.mongodb.net/telegramBot?retryWrites=true&w=majority&appName=Cluster0";
